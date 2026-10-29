@@ -776,7 +776,7 @@ sampling filters transient readings but cannot distinguish persistent query fail
 
 | Variable | Default | Description |
 |---|---|---|
-| `ANONYMIZED_TELEMETRY` | `true` | Set to `false` to disable anonymous usage telemetry. No personal data, tool arguments, or outputs are ever collected regardless of this setting. |
+| `ANONYMIZED_TELEMETRY` | `false` | In this distribution telemetry is **opt-in**: nothing is sent unless this is explicitly set to `true`. (Upstream defaults it to `true`.) No personal data, tool arguments, or outputs are ever collected regardless of this setting. |
 | `POSTHOG_API_KEY` | Project default | Override the PostHog project write key used for anonymous telemetry. Set to an empty string to skip PostHog client initialization. |
 | `POSTHOG_HOST` | `https://us.i.posthog.com` | Override the PostHog host for anonymous telemetry, such as for a self-hosted PostHog deployment. |
 
@@ -917,26 +917,28 @@ Please read our [Security Policy](SECURITY.md).
 
 ## 📊 Telemetry
 
-Windows-MCP collects usage data to help improve the MCP server. No personal information, no tool arguments, no outputs are tracked.
+**This build sends no telemetry by default.** Upstream Windows-MCP enables PostHog analytics with a hardcoded project key pointing at a US endpoint; this distribution flips that default so a fresh install phones home to nobody.
 
-To disable telemetry, set `ANONYMIZED_TELEMETRY` to `false` in your MCP client configuration:
+If you explicitly want the upstream usage metrics, opt in:
 
 ```json
 {
   "mcpServers": {
-    "windows-mcp": {
+    "deskpilot": {
       "command": "uvx",
       "args": [
         "windows-mcp",
         "serve"
       ],
       "env": {
-        "ANONYMIZED_TELEMETRY": "false"
+        "ANONYMIZED_TELEMETRY": "true"
       }
     }
   }
 }
 ```
+
+Either way, tool arguments and outputs are never collected.
 
 See the [Environment Variables](#-environment-variables) section for the full list of configurable options.
 
@@ -951,6 +953,8 @@ For detailed information on what data is collected and how it is handled, please
 ## 🪪 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+
+This distribution is a rebranded build of [Windows-MCP](https://github.com/CursorTouch/Windows-MCP) (MIT, © 2025 JEOMON GEORGE). The upstream copyright and permission notice is retained verbatim in [LICENSE.md](LICENSE.md), and [FORK.md](FORK.md) records exactly what was changed.
 
 ## 🙏 Acknowledgements
 

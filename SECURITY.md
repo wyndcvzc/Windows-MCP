@@ -282,7 +282,7 @@ Windows-MCP does not implement comprehensive audit logging by default. For compl
     - **No User Identifiers** beyond a randomly generated UUID stored locally.
 - **Privacy Considerations:**
   - **Error Messages**: In rare cases, system error messages (which are captured) may include local file paths if they are part of the OS error description.
-  - Telemetry is **enabled by default** to help maintainers understand usage patterns and prioritize features, but can be disabled at any time by setting the `ANONYMIZED_TELEMETRY` environment variable to `false`.
+  - Telemetry is **disabled by default** in this distribution and must be explicitly enabled by setting `ANONYMIZED_TELEMETRY` to `true`. (Upstream Windows-MCP ships it enabled; see [FORK.md](FORK.md).) When enabled, a redistributed build is responsible for disclosing the transfer to its own users — including that the PostHog endpoint is outside mainland China.
   - Windows-MCP processes all commands locally on your machine.
   - Screenshots and state captures remain strictly on your local system.
   - Web scraping may expose browsing activity to the target websites.

@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from windows_mcp import branding
 from windows_mcp.config import enable_debug
 from windows_mcp.infrastructure.config import ControlConfig, validate_idle_timeout
 from windows_mcp.infrastructure import (
@@ -216,7 +217,7 @@ def _exit_missing_dependency(exc: ModuleNotFoundError) -> NoReturn:
     """
     logger.debug("Startup import failed", exc_info=exc)
     click.echo(
-        f"windows-mcp: cannot start -- {exc}. The environment looks partially "
+        f"{branding.PRODUCT_NAME}: cannot start -- {exc}. The environment looks partially "
         f"installed; run `uv sync` in the extension directory, then restart the client.",
         err=True,
     )
@@ -328,7 +329,15 @@ def _build_mcp() -> FastMCP:
         nonlocal control_loop
         control_loop = asyncio.get_running_loop()
 
-        if os.getenv("ANONYMIZED_TELEMETRY", "true").lower() != "false":
+        # Telemetry is opt-in in this build, not opt-out. Upstream defaults it to
+        # "true" and ships a hardcoded PostHog key pointed at a US endpoint, so
+        # every install reports home before the user is ever asked. A
+        # redistributor is the personal-information handler for its own
+        # customers, and under PIPL a silent default is not a lawful basis --
+        # least of all when the data leaves the country. The comparison is
+        # deliberately "== true" rather than "!= false" so that an empty or
+        # unrecognised value fails closed instead of silently enabling upload.
+        if os.getenv("ANONYMIZED_TELEMETRY", "false").strip().lower() == "true":
             analytics = PostHogAnalytics()
         desktop = Desktop()
         screen_size = desktop.get_screen_size()
@@ -367,7 +376,11 @@ def _build_mcp() -> FastMCP:
                         await analytics.close()
                     control_loop = None
 
-    _mcp = FastMCP(name="windows-mcp", instructions=instructions, lifespan=lifespan)
+    _mcp = FastMCP(
+        name=branding.MCP_SERVER_NAME,
+        instructions=instructions,
+        lifespan=lifespan,
+    )
     _mcp.add_middleware(ControlToolGate(controller, notifier))
     register_all(_mcp, get_desktop=_get_desktop, get_analytics=_get_analytics)
     return _mcp
@@ -543,9 +556,17 @@ def _run_server(
             raise ValueError(f"Invalid transport: {transport}")
 
 
-@click.group(cls=_LegacyAwareGroup, no_args_is_help=False)
+@click.group(
+    cls=_LegacyAwareGroup,
+    no_args_is_help=False,
+    help=(
+        f"{branding.PRODUCT_NAME}: desktop automation server for AI agents.\n\n"
+        f"{branding.ATTRIBUTION}"
+    ),
+)
 def main():
-    """Windows-MCP: MCP server for Windows desktop automation."""
+    """Entry point. Help text is supplied above so the attribution line can be
+    built from ``branding`` instead of being duplicated as a literal."""
 
 
 @main.command()
