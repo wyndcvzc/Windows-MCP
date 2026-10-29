@@ -924,7 +924,7 @@ If you explicitly want the upstream usage metrics, opt in:
 ```json
 {
   "mcpServers": {
-    "deskpilot": {
+    "deskbuddy": {
       "command": "uvx",
       "args": [
         "windows-mcp",

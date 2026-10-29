@@ -9,7 +9,7 @@
 | 上游仓库 | https://github.com/CursorTouch/Windows-MCP |
 | 上游版本 | v0.8.8（`fbb2ac6`，2026-10-27） |
 | 许可证 | MIT，© 2025 JEOMON GEORGE |
-| 本发行版名称 | DeskPilot（桌面领航） |
+| 本发行版名称 | DeskBuddy（桌面搭子） |
 
 ## MIT 允许什么、要求什么
 

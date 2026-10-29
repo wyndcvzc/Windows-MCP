@@ -23,13 +23,13 @@ than a rebrand needs to.
 from __future__ import annotations
 
 #: Name shown in MCP host UIs, window titles and CLI output.
-PRODUCT_NAME = "DeskPilot"
+PRODUCT_NAME = "DeskBuddy"
 
 #: Chinese display name, for the localized build.
-PRODUCT_NAME_CN = "桌面领航"
+PRODUCT_NAME_CN = "桌面搭子"
 
 #: Identifier handed to FastMCP; keep it slug-shaped.
-MCP_SERVER_NAME = "deskpilot"
+MCP_SERVER_NAME = "deskbuddy"
 
 UPSTREAM_NAME = "Windows-MCP"
 UPSTREAM_URL = "https://github.com/CursorTouch/Windows-MCP"
