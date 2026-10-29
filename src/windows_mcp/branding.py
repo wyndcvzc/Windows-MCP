@@ -38,5 +38,7 @@ UPSTREAM_LICENSE = "MIT"
 
 #: One-line attribution for ``--help`` footers and about boxes. The licence
 #: requires the notice to travel with the software; this is the short form that
-#: points at the full text.
-ATTRIBUTION = f"Based on {UPSTREAM_NAME} ({UPSTREAM_LICENSE}) {UPSTREAM_COPYRIGHT} — {UPSTREAM_URL}"
+#: points at the full text. Kept ASCII-only: the frozen exe's console stream
+#: falls back to the system codepage (GBK on zh-CN Windows), and a non-ASCII
+#: dash renders as mojibake there.
+ATTRIBUTION = f"Based on {UPSTREAM_NAME} ({UPSTREAM_LICENSE}) {UPSTREAM_COPYRIGHT} -- {UPSTREAM_URL}"
